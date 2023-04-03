@@ -1,10 +1,38 @@
-function fib (n : int ) : int {
+function fib (n: int): int {
   match n {
-  | 0 => 0
+  | 0 => 1
   | 1 => 1
-  |  _ => fib(n - 1) + fib(n - 2)
+  | _ => fib(n - 1) + fib(n - 2)
   }
 }
 
+type list <T> enum { 
+  Nil
+  Cons ( cell< T > )
+}
 
-output_int(fib(3))
+type cell <T> struct {
+  data : T 
+  next : list<T>
+}
+
+function (self : list<T> ) iter <T>(cb : (T) => unit ) : unit {
+  match self {
+    | Nil => ()
+    | Cons ({data : data , next : next }) =>
+      cb (data);
+      next.iter(cb)
+  }
+}
+
+function hei (hi: int): int { 3 }
+
+type stock struct { price:int; }
+
+function showPric (self: stock): int { self.price + self.price }
+
+function init {
+  let data = Cons ({ data : {price : 20},
+                    next : Cons ({ data : {price : 10}, next : Nil})})
+  data.iter(fn(x){x.price.output()})                  
+}
